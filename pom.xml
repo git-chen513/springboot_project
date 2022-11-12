@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.example</groupId>
+    <artifactId>springboot_project</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>springboot_project</name>
+    <description>Demo project for Spring Boot</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <!--pom文件加入profiles标签的作用是为了把spring配置文件多环境部署和maven集成，方便使用
+    如果没有集成，那只能是"spring.profiles.active=dev"这种方式在配置文件写死设置环境，每次切换环境都得修改配置文件该值
+    而集成之后，我们就可以通过变量的方式设置环境值，每次切换环境只需要修改下idea的maven中的profile，不需要修改配置文件-->
+    <profiles>
+        <profile>
+            <id>pro</id>
+            <properties>
+                <profiles.active>pro</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <!--需要排除log4j、logback相关依赖，否则会导致log4j.properties文件不会生效-->
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+
+        <!--mysql的驱动包
+        需要注意：引进mybatis框架只是方便程序员写代码和数据库进行交互（相比于原生的JDBC来说）
+        而mysql驱动包还是需要额外引进的，mysql驱动包的作用主要是和数据库建立网络连接，建立连接之后，我们的程序才能操作数据库
+        mysql驱动相关解释可参考文档：https://www.yisu.com/zixun/696202.html
+        另外，mysql的驱动包版本要和数据库实际的版本号兼容，否则会连接不上
+        mysql驱动包和mysql数据库版本号对应关系参考文档：https://www.cnblogs.com/faberbeta/p/14391747.html
+        例如，我们引进的mysql驱动包版本号是8.0.13，如果数据库版本号是5.7或者8.x都是能够兼容的
+        （PS：mysql的版本号从5.7之后就直接升到了8.x）
+        还有需要注意，mysql驱动包的版本号如果是8.x，那么数据库连接的driver-class-name为com.mysql.cj.jdbc.Driver
+        如果mysql驱动包的版本号是5.x，那么数据库连接的driver-class-name为com.mysql.jdbc.Driver
+
+        补充：mysql驱动从 8.0.31 开始从原来的 mysql:mysql-connector-java 改为 com.mysql:mysql-connector -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.0.31</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--使用日志门面slf4j，并且使用log4j作为实现-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.70</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>30.1-jre</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--springboot打jar包的插件，默认会把第三方依赖包一起打包进去-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
