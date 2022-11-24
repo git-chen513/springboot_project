@@ -120,6 +120,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!--springboot打包插件executable设置为true，那么打出来的jar不能通过 jar -xvf 命令进行解压，但是windows的压缩工具还是可以解压jar包-->
+                    <!--<executable>true</executable>-->
+                </configuration>
             </plugin>
         </plugins>
     </build>
