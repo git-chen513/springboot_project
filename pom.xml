@@ -112,6 +112,13 @@
             <artifactId>guava</artifactId>
             <version>30.1-jre</version>
         </dependency>
+
+        <!--druid即可以做数据库连接池，还可以用于sql解析-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.2.14</version>
+        </dependency>
     </dependencies>
 
     <build>
