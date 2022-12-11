@@ -1,12 +1,17 @@
 package com.example.springboot_project.config;
 
+import com.example.springboot_project.filter.TokenLoginFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * SpringSecurity配置类
@@ -36,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
                 .and()
                 .formLogin();
+        http.addFilterBefore(tokenLoginFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -58,5 +64,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public TokenLoginFilter tokenLoginFilter() throws Exception {
+        TokenLoginFilter tokenLoginFilter = new TokenLoginFilter();
+        tokenLoginFilter.setAuthenticationManager(authenticationManagerBean());
+        return tokenLoginFilter;
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        AuthenticationManager authenticationManager = super.authenticationManagerBean();
+        return authenticationManager;
     }
 }
