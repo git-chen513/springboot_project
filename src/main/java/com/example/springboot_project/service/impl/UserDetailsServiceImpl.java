@@ -27,7 +27,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             UserDetailsModel userDetailsModel = new UserDetailsModel();
             userDetailsModel.setId(1);
             userDetailsModel.setUserName("admin");
-            userDetailsModel.setPassword("12345678");
+            // 保存到数据库的用户密码应该是加密的
+            userDetailsModel.setPassword("$2a$10$S/9YZMsBQt9OPaqunB5M8ec7nhAFr0/vsElSyIsHG3gQaS8F5MnQ2");
             userDetailsModel.setPhone("15217761659");
             userDetailsModel.setEmail("123456@qq.com");
             SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_admin");

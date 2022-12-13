@@ -30,22 +30,23 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = obtainUsername(request);
-        username = (username != null) ? username.trim() : "";
-        String password = obtainPassword(request);
-        password = (password != null) ? password : "";
-        UserDetails userDetails = null;
-        if (username.equals("admin") && password.equals("123456")) {
-            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_admin");
-            Collection collection = new ArrayList();
-            collection.add(simpleGrantedAuthority);
-            userDetails = new User(username, password, true, true, true, true, collection);
-        } else {
-            throw new BadCredentialsException("认证失败");
-        }
-        UsernamePasswordAuthenticationToken authentication = UsernamePasswordAuthenticationToken.authenticated(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
-        // Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
-        return authentication;
+//        String username = obtainUsername(request);
+//        username = (username != null) ? username.trim() : "";
+//        String password = obtainPassword(request);
+//        password = (password != null) ? password : "";
+//        UserDetails userDetails = null;
+//        if (username.equals("admin") && password.equals("123456")) {
+//            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_admin");
+//            Collection collection = new ArrayList();
+//            collection.add(simpleGrantedAuthority);
+//            userDetails = new User(username, password, true, true, true, true, collection);
+//        } else {
+//            throw new BadCredentialsException("认证失败");
+//        }
+//        UsernamePasswordAuthenticationToken authentication = UsernamePasswordAuthenticationToken.authenticated(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+//        // Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
+//        return authentication;
+        return super.attemptAuthentication(request, response);
     }
 
     @Override
