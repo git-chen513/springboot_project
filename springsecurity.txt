@@ -1,0 +1,11 @@
+springsecurity参考文档：
+
+1. RSA工具类和JWT工具类相关：https://blog.51cto.com/u_15127630/3892206
+
+2. springsecurity过滤器源码分析：
+https://juejin.cn/post/6846687598442708999
+https://blog.didispace.com/xjf-spring-security-4/
+
+3. session和jwt原生代码实现：https://zhuanlan.zhihu.com/p/342744060
+
+4. springsecurity+jwt：https://zhuanlan.zhihu.com/p/342755411
