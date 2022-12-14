@@ -2,6 +2,7 @@ package com.example.springboot_project.controller;
 
 import com.example.springboot_project.model.Student;
 import com.example.springboot_project.service.IStudentService;
+import com.example.springboot_project.support.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +22,7 @@ public class StudentController {
     private IStudentService studentService;
 
     @RequestMapping("/query_id")
-    public Student queryById(@RequestParam Integer id) {
+    public ResponseData queryById(@RequestParam Integer id) {
         return studentService.queryById(id);
     }
 }

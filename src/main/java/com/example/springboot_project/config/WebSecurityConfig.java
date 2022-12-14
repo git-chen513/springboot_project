@@ -13,7 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -43,14 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //http.httpBasic() // 开启httpbasic认证，对应的springsecurity的过滤器链会启用BasicAuthenticationFilter过滤器
 
         http.csrf().disable()
-                //.formLogin() // formLogin方式需要关闭csrf
-//                .loginPage("login.html")
-//                .loginProcessingUrl("/login")
-//                .usernameParameter("username")
-//                .passwordParameter("password")
-//                .defaultSuccessUrl("/")
-
-            //.and()
                 .authorizeRequests()
                 .antMatchers("/student/**").authenticated()
                 .anyRequest().permitAll()
@@ -62,19 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-////        auth.inMemoryAuthentication()
-////                .withUser("admin")
-////                .password(passwordEncoder().encode("123456"))
-////                .and()
-////                .passwordEncoder(passwordEncoder());
-////        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-////        String passwd = passwordEncoder.encode("123456");
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password(passwordEncoder().encode("123456")).roles("admin");
-//    }
 
     /***
      * PasswordEncoder密码加密器

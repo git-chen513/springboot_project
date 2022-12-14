@@ -1,6 +1,6 @@
 package com.example.springboot_project.service;
 
-import com.example.springboot_project.model.Student;
+import com.example.springboot_project.support.ResponseData;
 
 /**
  *
@@ -10,5 +10,5 @@ import com.example.springboot_project.model.Student;
  */
 public interface IStudentService {
 
-    Student queryById(Integer id);
+    ResponseData queryById(Integer id);
 }
