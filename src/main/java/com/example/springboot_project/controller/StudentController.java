@@ -24,4 +24,9 @@ public class StudentController {
     public ResponseData queryById(@RequestParam Integer id) {
         return studentService.queryById(id);
     }
+
+    @RequestMapping("/test")
+    public ResponseData test() {
+        return studentService.test();
+    }
 }

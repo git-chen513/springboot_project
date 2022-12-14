@@ -11,4 +11,6 @@ import com.example.springboot_project.support.ResponseData;
 public interface IStudentService {
 
     ResponseData queryById(Integer id);
+
+    ResponseData test();
 }

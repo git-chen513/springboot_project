@@ -2,6 +2,8 @@ package com.example.springboot_project.util;
 
 import com.alibaba.druid.util.StringUtils;
 import com.example.springboot_project.constants.Constants;
+import com.example.springboot_project.exception.ErrorEnum;
+import com.example.springboot_project.exception.ServiceException;
 import com.example.springboot_project.model.UserDetailsModel;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -134,11 +136,11 @@ public class JwtUtil {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            logger.error("token 已过期，请重新登录！");
-            throw e;
+            logger.error("token 已过期", e);
+            throw new ServiceException(ErrorEnum.EXPIRED_TOKEN);
         } catch (JwtException e) {
-            logger.error("token 解析失败");
-            throw e;
+            logger.error("token 解析失败", e);
+            throw new ServiceException(ErrorEnum.ILLEGAL_TOKEN);
         }
         return claims;
     }

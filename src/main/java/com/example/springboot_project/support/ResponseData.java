@@ -1,5 +1,6 @@
 package com.example.springboot_project.support;
 
+import com.example.springboot_project.exception.ErrorEnum;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -120,5 +121,9 @@ public class ResponseData<T> {
 
     public static <T> ResponseData<T> failure(int code, String message) {
         return new ResponseData<T>(code, message, STATUS_ERROR);
+    }
+
+    public static ResponseData failure(ErrorEnum errorEnum) {
+        return new ResponseData(errorEnum.getCode(), errorEnum.getMessage(), STATUS_ERROR);
     }
 }
