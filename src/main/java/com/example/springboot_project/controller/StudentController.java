@@ -1,6 +1,5 @@
 package com.example.springboot_project.controller;
 
-import com.example.springboot_project.model.Student;
 import com.example.springboot_project.service.IStudentService;
 import com.example.springboot_project.support.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
