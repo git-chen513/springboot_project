@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 全局异常统一拦截处理，以优雅的格式返回前端
  *
- * 注意：只会拦截controller接口抛出的异常，spring security过滤器抛出的异常不会被拦截处理
+ * 注意：只会拦截controller层抛出的异常，spring security过滤器抛出的异常不会被拦截处理
  *
  * @author canjiechen
  * @version 2.0.0
@@ -40,8 +40,8 @@ public class GlobalExceptionHandler {
      * 其他异常
      */
     @ExceptionHandler({ Exception.class })
-    public String exception(Exception e) {
+    public ResponseData exception(Exception e) {
         logger.warn("其他未知异常", e);
-        return ResponseData.failure(400, e.getMessage()).toString();
+        return ResponseData.failure(400, e.getMessage());
     }
 }

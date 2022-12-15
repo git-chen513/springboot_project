@@ -1,6 +1,7 @@
 package com.example.springboot_project.filter;
 
 import com.example.springboot_project.constants.Constants;
+import com.example.springboot_project.exception.ErrorEnum;
 import com.example.springboot_project.exception.ServiceException;
 import com.example.springboot_project.model.UserDetailsModel;
 import com.example.springboot_project.util.JwtUtil;
@@ -31,6 +32,11 @@ import java.util.Map;
  */
 public class TokenParseFilter extends OncePerRequestFilter {
 
+    /***
+     * 全局统一异常处理类GlobalExceptionHandler，作用时机在controller层抛出的异常
+     * 而过滤器在controller层之前生效，因此过滤器抛出的异常不会被GlobalExceptionHandler类统一处理
+     * 通过HandlerExceptionResolver将过滤器产生的异常转换到controller层，就可以被统一处理
+     */
     @Autowired
     private HandlerExceptionResolver handlerExceptionResolver;
 
@@ -44,13 +50,15 @@ public class TokenParseFilter extends OncePerRequestFilter {
                 publicKey = RsaUtil.getPublicKey(ResourceUtils.getFile("classpath:public.txt").getPath());
             } catch (Exception e) {
                 logger.error("获取公钥异常：", e);
-                throw new ServletException("获取公钥异常");
+                handlerExceptionResolver.resolveException(request, response, null, new ServiceException(ErrorEnum.GET_PUBLICKEY_ERROR));
+                return;
             }
             Claims claims = null;
             try {
                 claims = JwtUtil.parseJwtToken(token, publicKey);
             } catch (ServiceException e) {
                 handlerExceptionResolver.resolveException(request, response, null, e);
+                // 出现异常，必须使用return结束；否则代码会继续往下执行
                 return;
             }
             Object user = claims.get(Constants.JWT_PAYLOAD_USER_KEY);
