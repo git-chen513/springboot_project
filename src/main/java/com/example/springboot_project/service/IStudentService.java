@@ -13,4 +13,6 @@ public interface IStudentService {
     ResponseData queryById(Integer id);
 
     ResponseData test();
+
+    ResponseData get();
 }

@@ -1,10 +1,12 @@
 package com.example.springboot_project.filter;
 
 import com.example.springboot_project.constants.Constants;
+import com.example.springboot_project.exception.ServiceException;
 import com.example.springboot_project.model.UserDetailsModel;
 import com.example.springboot_project.util.JwtUtil;
 import com.example.springboot_project.util.RsaUtil;
 import io.jsonwebtoken.Claims;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +14,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,6 +30,10 @@ import java.util.Map;
  * 自定义过滤器：如果请求头携带了token，解析token，获取到用户信息保存到spring security上下文中
  */
 public class TokenParseFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private HandlerExceptionResolver handlerExceptionResolver;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authrozation");
@@ -39,7 +46,13 @@ public class TokenParseFilter extends OncePerRequestFilter {
                 logger.error("获取公钥异常：", e);
                 throw new ServletException("获取公钥异常");
             }
-            Claims claims = JwtUtil.parseJwtToken(token, publicKey);
+            Claims claims = null;
+            try {
+                claims = JwtUtil.parseJwtToken(token, publicKey);
+            } catch (ServiceException e) {
+                handlerExceptionResolver.resolveException(request, response, null, e);
+                return;
+            }
             Object user = claims.get(Constants.JWT_PAYLOAD_USER_KEY);
             Map<String, Object> userMap = (Map<String, Object>) user;
             UserDetailsModel userDetailsModel = new UserDetailsModel();

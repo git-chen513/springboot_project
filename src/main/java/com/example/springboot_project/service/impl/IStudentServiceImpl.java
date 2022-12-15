@@ -40,4 +40,10 @@ public class IStudentServiceImpl implements IStudentService {
         // 抛出自定义异常，测试异常是否会被全局捕获，以优雅的格式返回给前端
         throw new ServiceException(ErrorEnum.TEST_ERROR);
     }
+
+    @Override
+    public ResponseData get() {
+        Student student = new Student(1, 20, "test");
+        return ResponseData.success(student);
+    }
 }

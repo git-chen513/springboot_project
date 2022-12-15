@@ -29,4 +29,9 @@ public class StudentController {
     public ResponseData test() {
         return studentService.test();
     }
+
+    @RequestMapping("/get")
+    public ResponseData get() {
+        return studentService.get();
+    }
 }
