@@ -39,7 +39,6 @@ public class ResponseData<T> {
      */
     protected static final boolean STATUS_ERROR = false;
 
-
     public ResponseData() {
         this(CODE_200, STATUS_OK);
     }
@@ -104,23 +103,28 @@ public class ResponseData<T> {
         return new ResponseData(CODE_200, "操作成功", STATUS_OK);
     }
 
+    /**
+     * 按理来说，所有泛型方法都应该加上<T>来声明为泛型方法，但一般来讲更多的情况是泛型方法位于被声明为泛型的类里，
+     * 所以无需再声明一遍。但static属于类方法，所以需要单独加上<T>用来声明其为泛型方法
+     * 即普通方法不需要加上<T>，静态方法需要加上<T>
+     *
+     * @param data
+     * @param <T>
+     * @return
+     */
     public static <T> ResponseData<T> success(T data) {
         return new ResponseData(CODE_200, STATUS_OK, data);
     }
 
-//    public static ResponseData success(Object data) {
-//        return new ResponseData(CODE_200, STATUS_OK, data);
-//    }
-
-    public static ResponseData success(Object data, String message) {
+    public static <T> ResponseData<T> success(T data, String message) {
         if (StringUtils.isNotEmpty(message)) {
             return new ResponseData(CODE_200, message, STATUS_OK, data);
         }
         return new ResponseData(CODE_200, STATUS_OK, data);
     }
 
-    public static <T> ResponseData<T> failure(int code, String message) {
-        return new ResponseData<T>(code, message, STATUS_ERROR);
+    public static ResponseData failure(int code, String message) {
+        return new ResponseData(code, message, STATUS_ERROR);
     }
 
     public static ResponseData failure(ErrorEnum errorEnum) {
